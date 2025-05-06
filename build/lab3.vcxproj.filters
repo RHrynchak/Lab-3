@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Роман\OneDrive\Документи\vscodeprogs\Lab 3\mystruct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Роман\OneDrive\Документи\vscodeprogs\Lab 3\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Роман\OneDrive\Документи\vscodeprogs\Lab 3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{16DC216E-0A34-333A-B536-A38F9D70C6FC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

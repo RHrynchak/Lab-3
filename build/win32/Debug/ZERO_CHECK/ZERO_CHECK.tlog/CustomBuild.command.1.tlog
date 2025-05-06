@@ -1,0 +1,10 @@
+^C:\USERS\РОМАН\ONEDRIVE\ДОКУМЕНТИ\VSCODEPROGS\LAB 3\BUILD\CMAKEFILES\3864B8D0AE3463A1C01B154E17A6638D\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/Роман/OneDrive/Документи/vscodeprogs/Lab 3" "-BC:/Users/Роман/OneDrive/Документи/vscodeprogs/Lab 3/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/Роман/OneDrive/Документи/vscodeprogs/Lab 3/build/lab3.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
