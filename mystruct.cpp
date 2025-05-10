@@ -231,25 +231,27 @@ MyStruct::iterator MyStruct::insert( iterator pos, long long value )
 
 void MyStruct::pop_back()
 {
-    erase( --end() );
+    erase( --cend() );
 }
 
 void MyStruct::pop_front()
 {
-    erase( begin() );
+    erase( cbegin() );
 }
 
-void MyStruct::erase( iterator pos )
+MyStruct::iterator MyStruct::erase( const_iterator pos )
 {
     if ( size() == 0 )
         throw std::out_of_range( "MyStruct::erase: empty container" );
-    if ( pos == end() )
-        return;
-    slideLeft( pos );
+    if ( pos == cend() )
+        return end();
+    iterator tmp ( this, const_cast<long long*>(pos.cur), pos.blockIndex );
+    slideLeft( tmp );
     arr[(size() - 1) / BLOCK_SIZE][(size() - 1) % BLOCK_SIZE] = 0;
     --size_;
     if ( tooBig() )
         makeSmaller();
+    return tmp;
 }
 
 void MyStruct::shrink_to_fit()

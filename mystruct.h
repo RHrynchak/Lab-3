@@ -102,7 +102,7 @@ public:
     reference back();
     const_reference back() const;
 
-    void erase( iterator pos );
+    iterator erase( const_iterator pos );
     void clear() noexcept;
     void shrink_to_fit();
 
