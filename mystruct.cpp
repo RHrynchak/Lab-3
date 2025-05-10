@@ -216,17 +216,18 @@ void MyStruct::push_back( long long value ) // Через особливості
 
 void MyStruct::push_front( long long value )
 {
-    insert( begin(), value );
+    insert( cbegin(), value );
 }
 
-MyStruct::iterator MyStruct::insert( iterator pos, long long value )
+MyStruct::iterator MyStruct::insert( const_iterator pos, long long value )
 {
     if ( full() )
         addBlock();
-    slideRight( pos );
-    *pos = value;
+    iterator tmp ( this, const_cast<long long*>(pos.cur), pos.blockIndex );
+    slideRight( tmp );
+    *tmp = value;
     ++size_;
-    return iterator( this, pos.cur, pos.blockIndex );
+    return tmp;
 }
 
 void MyStruct::pop_back()

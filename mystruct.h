@@ -91,7 +91,7 @@ public:
         return iterator( this, arr[lastBlock] + lastPosition + 1, lastBlock ); 
     }
 
-    iterator insert( iterator pos, long long value );
+    iterator insert( const_iterator pos, long long value );
     void push_back( long long value );
     void push_front( long long value );
     void pop_back();
