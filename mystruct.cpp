@@ -65,6 +65,8 @@ MyStruct& MyStruct::operator=( const MyStruct& other )
         arr[i / BLOCK_SIZE][i % BLOCK_SIZE] = other.arr[i / BLOCK_SIZE][i % BLOCK_SIZE];
     size_ = other.size_;
     blockNumber = other.blockNumber;
+    if ( tooBig() )
+        makeSmaller();
     return *this;
 }
 
@@ -134,6 +136,34 @@ MyStruct::const_reference MyStruct::back() const
 // Кінець БЛОКУ front back
 
 // БЛОК ЗМІН КОНТЕЙНЕРА
+void MyStruct::deleteBlocksFromEnd( std::size_t cnt )
+{
+    if ( cnt <= 0 )
+        return;
+    
+    if ( cnt >= blockNumber )
+    {
+        clear();
+        return;
+    }
+    else
+    {
+        int newBlocksRequired = blockNumber - cnt;
+        for ( std::size_t i = newBlocksRequired; i < blockNumber; ++i ){
+            delete[] arr[i];
+            arr[i] = nullptr;
+        }
+        long long** tmp = new long long*[newBlocksRequired] {};
+        for ( std::size_t i = 0; i < newBlocksRequired; ++i )
+            tmp[i] = arr[i];
+        delete[] arr;
+        arr = tmp;
+        blockNumber = newBlocksRequired;
+        capacity_ = newBlocksRequired * BLOCK_SIZE;
+        return;
+    }
+}
+
 void MyStruct::addBlock()
 {
     long long* newBlock = new long long[BLOCK_SIZE] {};
@@ -154,21 +184,34 @@ void MyStruct::addBlock()
     }
 }
 
+void MyStruct::changeCapacity( std::size_t newCapacity )
+{
+    if ( newCapacity == 0 )
+    {
+        clear();
+        return;
+    }
+    
+    int newBlocksRequired = ( newCapacity - 1 ) / BLOCK_SIZE + 1;
+
+    if ( newBlocksRequired < blockNumber )
+    {
+        deleteBlocksFromEnd( blockNumber - newBlocksRequired );
+    }
+    else if ( newBlocksRequired > blockNumber )
+    {
+        for ( int i = 0; i < newBlocksRequired - blockNumber; ++i )
+        {
+            addBlock();
+        }
+    }
+    return;
+}
+
 void MyStruct::makeSmaller()
 {
     int newCapacity = size() * 1.2;
-    int newBlocksRequired = ( newCapacity - 1 ) / BLOCK_SIZE + 1;
-    for ( std::size_t i = newBlocksRequired; i < blockNumber; ++i ){
-        delete[] arr[i];
-        arr[i] = nullptr;
-    }
-    long long** tmp = new long long*[newBlocksRequired] {};
-    for ( std::size_t i = 0; i < newBlocksRequired; ++i )
-        tmp[i] = arr[i];
-    delete[] arr;
-    arr = tmp;
-    blockNumber = newBlocksRequired;
-    capacity_ = newCapacity;
+    changeCapacity( newCapacity );
 }
 
 void MyStruct::slideRight( iterator pos )
@@ -257,27 +300,6 @@ MyStruct::iterator MyStruct::erase( const_iterator pos )
 
 void MyStruct::shrink_to_fit()
 {
-    if ( size() == 0 )
-    {
-        clear();
-        return;
-    }
-
-    int blocksRequired = ( size() - 1 ) / BLOCK_SIZE + 1;
-    if ( blocksRequired == blockNumber )
-        return;
-
-    for ( std::size_t i = blocksRequired; i < blockNumber; ++i )
-    {
-        delete[] arr[i];
-        arr[i] = nullptr;
-    }
-    long long** tmp = new long long*[blocksRequired] {};
-    for ( std::size_t i = 0; i < blocksRequired; ++i )
-        tmp[i] = arr[i];
-    delete[] arr;
-    arr = tmp;
-    blockNumber = blocksRequired;
-    capacity_ = blocksRequired * BLOCK_SIZE;
+    changeCapacity( size() );
 }
 // КІНЕЦЬ БЛОКУ ЗМІН КОНТЕЙНЕРА

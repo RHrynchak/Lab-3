@@ -110,7 +110,7 @@ protected:
     struct Fictive {};
     explicit MyStruct( Fictive );
     const static size_type BLOCK_SIZE = 3; // Потім заміню, зараз таку поставив для зручного тестування
-    size_type blockNumber = 1;
+    size_type blockNumber = 0;
     long long** arr = nullptr;
     size_type size_ = 0; 
     size_type capacity_ = 0; 
@@ -121,6 +121,8 @@ protected:
     void slideLeft ( iterator pos );
     bool tooBig() const noexcept { return ( capacity() >= 3 * size() ) && ( blockNumber > 1 ); }
     void makeSmaller();
+    void changeCapacity( std::size_t newcapacity );
+    void deleteBlocksFromEnd( std::size_t cnt );
 };
 
 // БЛОК ІТЕРАТОРІВ
