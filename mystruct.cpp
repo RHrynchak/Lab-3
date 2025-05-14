@@ -259,6 +259,8 @@ void MyStruct::push_back( long long value ) // Через особливості
 
 void MyStruct::push_front( long long value )
 {
+    if ( capacity() == 0 )
+        addBlock();
     insert( cbegin(), value );
 }
 
@@ -267,6 +269,8 @@ MyStruct::iterator MyStruct::insert( const_iterator pos, long long value )
     if ( full() )
         addBlock();
     iterator tmp ( this, const_cast<long long*>(pos.cur), pos.blockIndex );
+    if ( tmp.cur == nullptr )
+        tmp.cur = begin().cur; // Якщо вставляємо в повністю пустий контейнер, під який не було виділено пам'яті
     slideRight( tmp );
     *tmp = value;
     ++size_;
