@@ -59,7 +59,7 @@ MyStruct& MyStruct::operator=( const MyStruct& other )
         return *this;
     if ( other.blockNumber > blockNumber ){
         clear();
-        create( other.size_ );
+        create( other.capacity() );
     }
     for ( std::size_t i = 0; i < other.size(); ++i )
         arr[i / BLOCK_SIZE][i % BLOCK_SIZE] = other.arr[i / BLOCK_SIZE][i % BLOCK_SIZE];
