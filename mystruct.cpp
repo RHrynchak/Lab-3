@@ -140,7 +140,7 @@ void MyStruct::deleteBlocksFromEnd( std::size_t cnt )
 {
     if ( cnt <= 0 )
         return;
-    if ( cnt >= blockNumber )
+    else if ( cnt >= blockNumber )
     {
         clear();
         return;
@@ -183,7 +183,7 @@ void MyStruct::addBlock()
     }
 }
 
-void MyStruct::changeCapacity( std::size_t newCapacity )
+void MyStruct::decreaseCapacity( std::size_t newCapacity )
 {
     if ( newCapacity == 0 )
     {
@@ -192,17 +192,9 @@ void MyStruct::changeCapacity( std::size_t newCapacity )
     }
     
     int newBlocksRequired = ( newCapacity - 1 ) / BLOCK_SIZE + 1;
-
     if ( newBlocksRequired < blockNumber )
     {
         deleteBlocksFromEnd( blockNumber - newBlocksRequired );
-    }
-    else if ( newBlocksRequired > blockNumber )
-    {
-        for ( int i = 0; i < newBlocksRequired - blockNumber; ++i )
-        {
-            addBlock();
-        }
     }
     return;
 }
@@ -210,7 +202,7 @@ void MyStruct::changeCapacity( std::size_t newCapacity )
 void MyStruct::makeSmaller()
 {
     int newCapacity = size() * 1.2;
-    changeCapacity( newCapacity );
+    decreaseCapacity( newCapacity );
 }
 
 void MyStruct::slideRight( iterator pos )
@@ -309,6 +301,6 @@ MyStruct::iterator MyStruct::erase( const_iterator pos )
 
 void MyStruct::shrink_to_fit()
 {
-    changeCapacity( size() );
+    decreaseCapacity( size() );
 }
 // КІНЕЦЬ БЛОКУ ЗМІН КОНТЕЙНЕРА

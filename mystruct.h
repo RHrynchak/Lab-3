@@ -122,7 +122,7 @@ protected:
     void slideLeft ( iterator pos );
     bool tooBig() const noexcept { return ( capacity() >= 3 * size() ) && ( blockNumber > 1 ); }
     void makeSmaller();
-    void changeCapacity( std::size_t newcapacity );
+    void decreaseCapacity( std::size_t newcapacity );
     void deleteBlocksFromEnd( std::size_t cnt );
 };
 
