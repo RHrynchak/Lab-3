@@ -23,6 +23,7 @@ protected:
             reference operator*() const;
             pointer operator->() const;
             bool operator== ( MyIterator other ) const noexcept { return cur == other.cur; }
+            bool isNull() const noexcept { return cur == nullptr; }
         private:
             MyStruct* owner = nullptr;
             int blockIndex = 0; 

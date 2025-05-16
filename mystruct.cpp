@@ -140,7 +140,6 @@ void MyStruct::deleteBlocksFromEnd( std::size_t cnt )
 {
     if ( cnt <= 0 )
         return;
-    
     if ( cnt >= blockNumber )
     {
         clear();
@@ -266,11 +265,17 @@ void MyStruct::push_front( long long value )
 
 MyStruct::iterator MyStruct::insert( const_iterator pos, long long value )
 {
+    if ( pos == cend() )
+    {
+        push_back( value );
+        return end();
+    }
+
     if ( full() )
         addBlock();
     iterator tmp ( this, const_cast<long long*>(pos.cur), pos.blockIndex );
-    if ( tmp.cur == nullptr )
-        tmp.cur = begin().cur; // Якщо вставляємо в повністю пустий контейнер, під який не було виділено пам'яті
+    if ( tmp.isNull() )
+        tmp = begin(); // Якщо вставляємо в повністю пустий контейнер, під який не було виділено пам'яті
     slideRight( tmp );
     *tmp = value;
     ++size_;
