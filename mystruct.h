@@ -3,6 +3,7 @@
 #pragma once
 #include <cstddef>
 #include <initializer_list>
+#include <stdexcept>
 
 class MyStruct
 {
@@ -216,6 +217,8 @@ MyStruct::MyIterator<T> MyStruct::MyIterator<T>::operator--( int )
 template <class T>
 MyStruct::MyIterator<T>::reference MyStruct::MyIterator<T>::operator*() const
 {
+    if ( cur == nullptr )
+        throw std::out_of_range( "MyStruct::MyIterator::operator*: empty container" );
     return *cur;
 }
 
